@@ -2,7 +2,10 @@
 def docx_to_text(filename):
 	import re
 	import zipfile
-	file = zipfile.ZipFile(filename)
-	content = file.read("word/document.xml").decode("utf-8")
-	cleaned = re.sub(r"<(.|\n)*?>", "", content)
-	return cleaned
+	try:
+		file = zipfile.ZipFile(filename)
+		content = file.read("word/document.xml").decode("utf-8")
+		cleaned = re.sub(r"<(.|\n)*?>", "", content)
+		return cleaned
+	except zipfile.BadZipFile:
+		return ""
